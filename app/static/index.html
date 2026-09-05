@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VOICE AI ASSISTANT | Multimodal Audio Intelligence</title>
+  <meta name="description" content="State-of-the-art Voice AI Assistant and Task Intelligence platform powered by Google Gemini AI. Speech-to-Text, LLM Reasoning, and Text-to-Speech audio response.">
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="dark-theme">
+  <div class="app-background">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+  </div>
+
+  <div class="app-container">
+    <!-- Navigation Header with Enlarged Logo -->
+    <header class="app-header">
+      <div class="logo-group">
+        <div class="logo-icon-container">
+          <div class="logo-glow-ring"></div>
+          <div class="logo-icon">
+            <i class="fa-solid fa-microphone-lines"></i>
+          </div>
+        </div>
+        <div class="logo-text">
+          <h1>VOICE AI <span class="gradient-text">ASSISTANT</span></h1>
+          <div class="logo-subtitle-row">
+            <p>Multimodal Speech Intelligence & Executive Task Board</p>
+            <span class="status-badge" title="Gemini AI Multimodal Engine Active">
+              <span class="status-dot"></span> Gemini Connected
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="themeToggleBtn" class="icon-btn" title="Toggle Light/Dark Theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <button id="resetAppBtn" class="icon-btn" title="Clear / Reset Workspace">
+          <i class="fa-solid fa-rotate-left"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button class="nav-tab active" data-tab="assistant-mode">
+        <i class="fa-solid fa-robot"></i> Voice AI Assistant
+      </button>
+      <button class="nav-tab" data-tab="single-mode">
+        <i class="fa-solid fa-microphone"></i> Voice Note → Tasks
+      </button>
+      <button class="nav-tab" data-tab="batch-mode">
+        <i class="fa-solid fa-layer-group"></i> Batch Processing <span class="badge-new">Stretch</span>
+      </button>
+      <button class="nav-tab" data-tab="text-mode">
+        <i class="fa-solid fa-file-pen"></i> Text Memo
+      </button>
+    </nav>
+
+    <!-- Conversational Voice AI Assistant Tab -->
+    <section id="assistant-mode" class="tab-content active">
+      <div class="input-card glass-panel assistant-container">
+        <div class="assistant-header">
+          <h2><i class="fa-solid fa-comments gradient-text"></i> Conversational AI Assistant</h2>
+          <p class="recorder-status">Speak into your microphone or type a query. The AI will respond with text and spoken audio!</p>
+          <div class="prompt-suggestions">
+            <button class="prompt-pill" data-prompt="Explain Generative AI to a first-year student simply."><i class="fa-solid fa-wand-magic-sparkles"></i> Explain Generative AI</button>
+            <button class="prompt-pill" data-prompt="What is RAG and why is it useful in AI applications?"><i class="fa-solid fa-database"></i> What is RAG?</button>
+            <button class="prompt-pill" data-prompt="Summarize best practices for sprint planning and task delegation."><i class="fa-solid fa-list-check"></i> Sprint Planning Tips</button>
+            <button class="prompt-pill" data-prompt="Draft a polite email to follow up on project deliverables."><i class="fa-solid fa-paper-plane"></i> Follow-up Email</button>
+          </div>
+        </div>
+
+        <!-- Chat Stream History -->
+        <div id="assistantChatHistory" class="chat-history">
+          <div class="chat-bubble assistant">
+            <div class="chat-avatar"><i class="fa-solid fa-robot"></i></div>
+            <div class="chat-content">
+              <strong>Gemini AI Assistant</strong>
+              <p>Hello! I am your AI Voice Assistant. How can I help you today? You can press the microphone button below to talk to me, or type your message.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Assistant Controls & Input Box -->
+        <div class="recorder-visualizer">
+          <canvas id="assistantVisualizerCanvas" class="visualizer-canvas"></canvas>
+          <div id="assistantTimerDisplay" class="timer-display">00:00</div>
+          <div id="assistantRecorderStatus" class="recorder-status">Click microphone to speak to Assistant</div>
+          <div class="recorder-controls">
+            <button id="btnAssistantRecord" class="record-btn" title="Speak to Voice Assistant">
+              <i class="fa-solid fa-microphone"></i>
+            </button>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px; margin-top:8px;">
+          <textarea id="assistantTextInput" class="text-memo-area" style="min-height:70px; flex:1;" placeholder="Ask anything... (e.g. 'What are key action items for launch?')"></textarea>
+          <button id="btnAssistantSend" class="primary-btn" style="height:auto; align-self:stretch;">
+            <i class="fa-solid fa-paper-plane"></i> Send
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Single Mode View (Voice Note -> Action Items) -->
+    <section id="single-mode" class="tab-content">
+      <div class="input-card glass-panel">
+        <div class="input-toggle">
+          <button id="btnToggleRecord" class="toggle-btn active">
+            <i class="fa-solid fa-microphone"></i> Live Recording
+          </button>
+          <button id="btnToggleUpload" class="toggle-btn">
+            <i class="fa-solid fa-cloud-arrow-up"></i> Upload Audio File
+          </button>
+        </div>
+
+        <!-- Recorder Panel -->
+        <div id="recorderPanel" class="input-section">
+          <div class="recorder-visualizer">
+            <canvas id="visualizerCanvas" class="visualizer-canvas"></canvas>
+            <div class="wave-bars">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div id="timerDisplay" class="timer-display">00:00</div>
+            <div id="recorderStatus" class="recorder-status">Click record & start speaking your voice memo</div>
+          </div>
+          <div class="recorder-controls">
+            <button id="btnRecordToggle" class="record-btn" title="Start Recording">
+              <i class="fa-solid fa-microphone"></i>
+            </button>
+          </div>
+          <div id="audioPreviewContainer" class="audio-preview-container hidden">
+            <audio id="audioPreview" controls></audio>
+            <div class="action-row">
+              <button id="btnProcessRecord" class="primary-btn">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Process Voice Note
+              </button>
+              <button id="btnDiscardRecord" class="secondary-btn">
+                <i class="fa-solid fa-trash"></i> Discard
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- File Upload Panel -->
+        <div id="uploadPanel" class="input-section hidden">
+          <div id="dropZoneSingle" class="drop-zone">
+            <i class="fa-solid fa-cloud-arrow-up drop-icon"></i>
+            <h3>Drag & Drop your audio voice memo here</h3>
+            <p>Supports MP3, WAV, M4A, WEBM, OGG (Max 25MB)</p>
+            <input type="file" id="singleFileInput" accept="audio/*" class="file-input">
+            <button class="browse-btn" onclick="document.getElementById('singleFileInput').click()">Browse File</button>
+          </div>
+          <div id="singleFileInfo" class="file-info hidden" style="margin-top:16px; text-align:center;">
+            <p style="margin-bottom:12px; font-weight:600;"><i class="fa-solid fa-file-audio"></i> <span id="singleFileName">memo.mp3</span></p>
+            <button id="btnProcessSingleFile" class="primary-btn" style="margin:0 auto;">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Analyze & Extract Action Items
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Batch Mode View -->
+    <section id="batch-mode" class="tab-content">
+      <div class="input-card glass-panel">
+        <div class="batch-header">
+          <h2><i class="fa-solid fa-layer-group gradient-text"></i> Batch Voice Memo Processing</h2>
+          <p class="recorder-status">Upload multiple recordings at once. The AI will process each note and construct a master consolidated executive summary with global action items.</p>
+        </div>
+        <div id="dropZoneBatch" class="drop-zone">
+          <i class="fa-solid fa-folder-open drop-icon"></i>
+          <h3>Select or Drop Multiple Audio Recordings</h3>
+          <p>Upload up to 10 voice memos simultaneously</p>
+          <input type="file" id="batchFileInput" accept="audio/*" multiple class="file-input">
+          <button class="browse-btn" onclick="document.getElementById('batchFileInput').click()">Select Multiple Files</button>
+        </div>
+        <div id="batchFileList" class="batch-file-list hidden">
+          <h3 style="margin-bottom:12px; font-size:16px;">Selected Voice Memos (<span id="batchCount">0</span>)</h3>
+          <ul id="batchItemsUl" class="batch-items-ul" style="list-style:none;"></ul>
+          <div class="action-row">
+            <button id="btnProcessBatch" class="primary-btn glow-btn">
+              <i class="fa-solid fa-bolt"></i> Process All Memos & Generate Master Summary
+            </button>
+            <button id="btnClearBatch" class="secondary-btn">Clear All</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Text Mode View -->
+    <section id="text-mode" class="tab-content">
+      <div class="input-card glass-panel">
+        <h2><i class="fa-solid fa-file-pen gradient-text"></i> Paste Text Voice Memo</h2>
+        <p class="recorder-status">Enter your unedited rambling notes or meeting transcript below:</p>
+        <textarea id="textMemoInput" class="text-memo-area" placeholder="e.g., Remember to follow up with Sarah about the Q3 budget proposal by Thursday, fix the production bug in the auth service ASAP, and schedule team sync for tomorrow morning..."></textarea>
+        <div class="action-row">
+          <button id="btnProcessText" class="primary-btn">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Extract Action Items & Summary
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Loading Spinner Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+      <div class="spinner-box">
+        <div class="pulse-spinner"></div>
+        <h3 id="loadingTitle" style="font-size:22px; font-family:var(--heading-font);">Analyzing Audio with Gemini AI...</h3>
+        <p id="loadingSubtitle" style="color:var(--text-muted);">Extracting structured action items, priority levels, and summary</p>
+      </div>
+    </div>
+
+    <!-- Results Section Container -->
+    <main id="resultsSection" class="results-section hidden">
+      <!-- Top Action Toolbar -->
+      <div class="results-toolbar glass-panel">
+        <div class="result-title-group">
+          <h2 id="resTitle">Voice Note Analysis</h2>
+          <span id="resSentiment" class="sentiment-badge">Productive</span>
+        </div>
+        <div class="toolbar-buttons">
+          <button id="btnExportPdf" class="export-btn pdf-btn">
+            <i class="fa-solid fa-file-pdf"></i> Export PDF Report
+          </button>
+          <button id="btnCopyMarkdown" class="export-btn">
+            <i class="fa-solid fa-copy"></i> Copy Markdown
+          </button>
+          <button id="btnExportJson" class="export-btn" title="Download JSON Data">
+            <i class="fa-solid fa-code"></i> Download JSON
+          </button>
+        </div>
+      </div>
+
+      <!-- Master Summary Card -->
+      <div class="summary-card glass-panel">
+        <div class="card-header">
+          <h3><i class="fa-solid fa-align-left gradient-text"></i> Executive Summary</h3>
+          <div id="resAudioContainer" class="res-audio-container hidden">
+            <audio id="resAudioPlayer" controls></audio>
+          </div>
+        </div>
+        <p id="resSummaryText" class="summary-text"></p>
+        
+        <div id="keyTakeawaysContainer" class="takeaways-container hidden" style="margin-top:14px;">
+          <h4><i class="fa-solid fa-lightbulb gradient-text"></i> Key Takeaways</h4>
+          <ul id="keyTakeawaysUl" class="takeaways-ul"></ul>
+        </div>
+      </div>
+
+      <!-- Interactive Action Items Board -->
+      <div class="tasks-card glass-panel">
+        <div class="tasks-header">
+          <div class="tasks-title">
+            <h3><i class="fa-solid fa-list-check gradient-text"></i> Action Items Board</h3>
+            <span id="taskCounterBadge" class="task-counter">0 Tasks</span>
+          </div>
+
+          <div class="progress-bar-container">
+            <div class="progress-text">Progress: <span id="progressPercent">0%</span></div>
+            <div class="progress-track">
+              <div id="progressFill" class="progress-fill" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="tasks-filter-bar">
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">All</button>
+            <button class="filter-tab" data-filter="High">High 🔴</button>
+            <button class="filter-tab" data-filter="Medium">Medium 🟡</button>
+            <button class="filter-tab" data-filter="Low">Low 🔵</button>
+            <button class="filter-tab" data-filter="Pending">Pending ⏳</button>
+            <button class="filter-tab" data-filter="Completed">Done ✅</button>
+          </div>
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="taskSearchInput" placeholder="Filter tasks...">
+          </div>
+        </div>
+
+        <!-- Task List Container -->
+        <div id="taskListUl" class="task-list-ul"></div>
+      </div>
+
+      <!-- Batch Individual Breakdowns (Only visible in Batch mode) -->
+      <div id="batchBreakdownContainer" class="batch-breakdown-container hidden glass-panel">
+        <h3><i class="fa-solid fa-list-ol gradient-text"></i> Individual Note Breakdowns</h3>
+        <div id="batchNotesAccordion" class="batch-accordion"></div>
+      </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>VOICE AI ASSISTANT | Powered by Google Gemini AI Multimodal Architecture</p>
+    </footer>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

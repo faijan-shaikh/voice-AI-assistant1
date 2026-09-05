@@ -1,0 +1,23 @@
+# Environments
+.env
+.venv/
+env/
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Generated runtime data
+data/audio/*
+data/pdf/*
+!data/audio/.gitkeep
+!data/pdf/.gitkeep
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

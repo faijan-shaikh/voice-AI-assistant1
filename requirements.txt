@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+python-multipart
+google-genai
+gTTS
+pydantic
+pytest
+reportlab
+pillow
+streamlit
+openai
+faster-whisper
